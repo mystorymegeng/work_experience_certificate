@@ -1,5 +1,6 @@
 import * as express from "express"
 import { MongoClient } from "mongodb"
+import { transactionController } from "./controller/transaction";
 import { userController } from "./controller/user";
 
 const PORT = 3000;
@@ -25,7 +26,8 @@ const initApp = (connect: MongoClient) => {
         res.send('Hello remote world!\n')
     })
     
-    new userController(db, app)
+    userController(db, app)
+    transactionController(db, app)
 
     console.log(`Running on http://${HOST}:${PORT}`)
 }
