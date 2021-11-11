@@ -1,4 +1,4 @@
-import * as express from "express"
+import express from "express";
 import { MongoClient } from "mongodb"
 import { transactionController } from "./controller/transaction";
 import { userController } from "./controller/user";
