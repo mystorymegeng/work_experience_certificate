@@ -1,8 +1,8 @@
 import { Express } from "express"
-import { Collection, ObjectId } from "mongodb"
+import { Collection, Db, ObjectId } from "mongodb"
 
-export const userController = (db, app: Express) => {
-    let users: Collection<Document>
+export const userController = (db: Db, app: Express) => {
+    let users: Collection<any>
     users = db.collection('users')
 
     app.get('/users', async (req, res) => {

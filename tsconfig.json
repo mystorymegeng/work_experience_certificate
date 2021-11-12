@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "lib": [
+            "es2016",
+            "dom"
+        ],
+        "allowJs": true,
+        "outDir": "./dist/",
+        "strict": true,
+        "noImplicitAny": false,
+        "strictNullChecks": false,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "inlineSourceMap": true,
+        "resolveJsonModule": true
+    },
+    "include": [
+        "./**/*.ts",
+        "@types/**/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

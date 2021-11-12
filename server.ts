@@ -1,7 +1,20 @@
 import express from "express";
-import { MongoClient } from "mongodb"
+import { MongoClient } from "mongodb";
+import Web3 from "web3";
+
 import { transactionController } from "./controller/transaction";
 import { userController } from "./controller/user";
+
+import Certificate from "./build/contracts/Certificate.json";
+
+import * as TruffleContract from "@truffle/contract";
+// import * as smart from "./connection/app";
+
+// const truffle_connect = require('./connection/app.js');
+// import { contract } from "./connection/app";
+
+let web3 = new Web3('ws://172.29.176.1:7545');
+web3.eth.getAccounts().then(console.log);
 
 const PORT = 3000;
 const HOST = '0.0.0.0'
@@ -22,7 +35,12 @@ const initApp = (connect: MongoClient) => {
 
     app.listen(PORT, HOST)
 
+    // smart.read();
+
     app.get('/', (req, res) => {
+        // contract.start(function (answer) {
+        //     res.send(answer);
+        // })
         res.send('Hello remote world!\n')
     })
     
