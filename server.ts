@@ -1,20 +1,22 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import Web3 from "web3";
+import { AbiItem } from 'web3-utils'
 
 import { transactionController } from "./controller/transaction";
 import { userController } from "./controller/user";
 
-import Certificate from "./build/contracts/Certificate.json";
-
-import * as TruffleContract from "@truffle/contract";
-// import * as smart from "./connection/app";
-
-// const truffle_connect = require('./connection/app.js');
-// import { contract } from "./connection/app";
+import fs from 'fs';
+// import CertificateJson from "./build/contracts/Certificate.json";
+const CertificateJson = require("./build/contracts/Certificate.json");
 
 let web3 = new Web3('ws://172.29.176.1:7545');
 web3.eth.getAccounts().then(console.log);
+// let certificateJson: any = CertificateJson;
+let json: any = fs.readFileSync('./build/contracts/Certificate.json');
+const abi:AbiItem[] = JSON.parse(json);
+// let cer = JSON.parse(JSON.stringify(CertificateJson));
+let Certificate = new web3.eth.Contract(CertificateJson)
 
 const PORT = 3000;
 const HOST = '0.0.0.0'
