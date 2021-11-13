@@ -42,7 +42,8 @@ module.exports = {
     // options below to some value.
     //
     development: {
-      host: "172.29.176.1",
+      // host: "127.0.0.1",
+      host: "172.21.208.1",
       port: 7545,
       network_id: "*" // Match any network id
   },

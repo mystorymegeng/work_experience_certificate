@@ -1,27 +1,23 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import Web3 from "web3";
-import { AbiItem } from 'web3-utils'
+import abiDecoder from "abi-decoder";
 
 import { transactionController } from "./controller/transaction";
 import { userController } from "./controller/user";
 
-import fs from 'fs';
-// import CertificateJson from "./build/contracts/Certificate.json";
-const CertificateJson = require("./build/contracts/Certificate.json");
-
-let web3 = new Web3('ws://172.29.176.1:7545');
-web3.eth.getAccounts().then(console.log);
-// let certificateJson: any = CertificateJson;
-let json: any = fs.readFileSync('./build/contracts/Certificate.json');
-const abi:AbiItem[] = JSON.parse(json);
-// let cer = JSON.parse(JSON.stringify(CertificateJson));
-let Certificate = new web3.eth.Contract(CertificateJson)
+import CertificateJson from "./build/contracts/Certificate.json";
 
 const PORT = 3000;
 const HOST = '0.0.0.0'
 
 const uri = "mongodb://localhost:27017/certificate"
+// const web3Uri = "ws://127.0.0.1:7545"
+const web3Uri = "ws://172.21.208.1:7545"
+const contracAddress = "0x3745343C98EffA9b394Df00Dc11C5253cBF40DA5"
+export var baseAccount = "";
+export var web3: Web3;
+// export var abiDecode: any;
 
 
 const initDB = async () => {
@@ -30,28 +26,36 @@ const initDB = async () => {
     return connect;
 }
 
-const initApp = (connect: MongoClient) => {
+const initWeb3 = async () => {
+    web3 = new Web3(web3Uri);
+    const CertificateABI: any = CertificateJson.abi;
+    abiDecoder.addABI(CertificateABI);
+    const contract = new web3.eth.Contract(CertificateABI, contracAddress);
+    let account = await web3.eth.getAccounts()
+    web3.eth.getTransaction
+    baseAccount = account[0];
+    return contract
+}
+
+const initApp = (connect: MongoClient, contract) => {
     const db = connect.db("certificate")
     const app = express()
     app.use(express.json())
 
     app.listen(PORT, HOST)
 
-    // smart.read();
-
     app.get('/', (req, res) => {
-        // contract.start(function (answer) {
-        //     res.send(answer);
-        // })
         res.send('Hello remote world!\n')
     })
     
-    userController(db, app)
-    transactionController(db, app)
+    userController(db, app, contract)
+    transactionController(db, app, contract)
 
     console.log(`Running on http://${HOST}:${PORT}`)
 }
 
 initDB().then( connect => {
-    initApp(connect)
-} )
+    initWeb3().then( contract => {
+        initApp(connect, contract)
+    })
+})

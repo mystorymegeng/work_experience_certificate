@@ -93,5 +93,9 @@ contract Certificate {
     function getCer(uint i) public view returns (CerInfo memory) {
         return listCer[i];
     }
+
+    function hello() public pure returns (string memory) {
+        return "mystoryme";
+    }
     
 }
