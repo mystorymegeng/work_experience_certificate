@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { MongoClient } from "mongodb";
 import Web3 from "web3";
 import abiDecoder from "abi-decoder";
@@ -10,6 +11,8 @@ import CertificateJson from "./build/contracts/Certificate.json";
 
 const PORT = 3000;
 const HOST = '0.0.0.0'
+
+
 
 const uri = "mongodb://localhost:27017/certificate"
 // const web3Uri = "ws://127.0.0.1:7545"
@@ -40,6 +43,9 @@ const initWeb3 = async () => {
 const initApp = (connect: MongoClient, contract) => {
     const db = connect.db("certificate")
     const app = express()
+    app.use(cors({
+        origin: '*'
+    }));
     app.use(express.json())
 
     app.listen(PORT, HOST)

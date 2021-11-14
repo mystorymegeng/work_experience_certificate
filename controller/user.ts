@@ -23,9 +23,14 @@ export const userController = (db: Db, app: Express, contract) => {
                 createAt: new Date
             }
 
-            await contract.methods.addUser( data.account, data.company ).send( { from: baseAccount } )
-            const user = await users.insertOne(data);
-            res.json(user)
+            const check = await users.findOne( {account: data.account} )
+            if ( check ) {
+                res.status(500).json({message: "already exist account: " + data.account})
+            } else {
+                await contract.methods.addUser( data.account, data.company ).send( { from: baseAccount } )
+                const user = await users.insertOne(data);
+                res.json(user)
+            }
         } catch (err) {
             res.status(500).json( {message: err} )
         }
@@ -35,6 +40,7 @@ export const userController = (db: Db, app: Express, contract) => {
         try {
             let input = req.params;
             await contract.methods.deleteUser( input.account ).send( { from: baseAccount } )
+            await users.deleteOne({account: input.account})
             res.json({message: "deleted account " + input.account});
         } catch (err) {
             res.status(500).json( {message: err} )

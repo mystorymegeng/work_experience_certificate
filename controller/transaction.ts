@@ -42,8 +42,8 @@ export const transactionController = (db: Db, app: Express, contract) => {
                 company: input.company.toString(),
                 createAt: new Date
             }
-            const user = await transactions.insertOne(data);
-            res.json(user)
+            const transaction = await transactions.insertOne(data);
+            res.json(transaction)
         } catch (err) {
             res.status(500).json( {message: err} )
         }
@@ -62,8 +62,8 @@ export const transactionController = (db: Db, app: Express, contract) => {
                 company: input.company.toString(),
                 createAt: new Date
             }
-            const user = await transactions.insertOne(data);
-            res.json(user)
+            const transaction = await transactions.insertOne(data);
+            res.json(transaction)
         } catch (err) {
             res.status(500).json( {message: err} )
         }
