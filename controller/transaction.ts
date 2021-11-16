@@ -7,12 +7,14 @@ import { web3 } from "../server"
 export const transactionController = (db: Db, app: Express, contract) => {
     let transactions: Collection<any>
     transactions = db.collection('transactions')
+    let users: Collection<any>
+    users = db.collection('users')
     
     app.get('/transactions', async (req, res) => {
         try {
-            const tran = await contract.methods.getAllCer().call( { gas: 1000000 } )
-            // const allTransaction = await transactions.find({}).toArray()
-            res.json(tran)
+            // const tran = await contract.methods.getAllCer().call( { gas: 1000000 } )
+            const allTransaction = await transactions.find({}).toArray()
+            res.json(allTransaction)
         } catch (err) {
             res.status(500).json( {message: err} )
         }
@@ -23,7 +25,17 @@ export const transactionController = (db: Db, app: Express, contract) => {
             let input = req.params;
             let tran = await web3.eth.getTransaction(input.hash);
             const decode = abiDecoder.decodeMethod(tran.input)
-            res.json(decode)
+            let dbTran = await transactions.findOne( {hash: input.hash} ) 
+            let user = await users.findOne({_id: new ObjectId(dbTran.userId.toString())});
+            let data = {};
+            if (dbTran) {
+                for ( let i of decode.params ) {
+                    data[i.name] = i.value;
+                }
+                data['user'] = user.name+ " "+ user.sername;
+                data['createAt'] = dbTran.createAt;
+            }
+            res.json(data)
         } catch (err) {
             res.status(500).json( {message: err} )
         }
@@ -42,8 +54,9 @@ export const transactionController = (db: Db, app: Express, contract) => {
                 company: input.company.toString(),
                 createAt: new Date
             }
-            const transaction = await transactions.insertOne(data);
-            res.json(transaction)
+            const transaction: any = await transactions.insertOne(data);
+            const check = await transactions.findOne({ _id: new ObjectId(transaction._id.toString()) })
+            res.json(check)
         } catch (err) {
             res.status(500).json( {message: err} )
         }
@@ -62,8 +75,9 @@ export const transactionController = (db: Db, app: Express, contract) => {
                 company: input.company.toString(),
                 createAt: new Date
             }
-            const transaction = await transactions.insertOne(data);
-            res.json(transaction)
+            const transaction: any = await transactions.insertOne(data);
+            const check = await transactions.findOne({ _id: new ObjectId(transaction._id.toString()) });
+            res.json(check)
         } catch (err) {
             res.status(500).json( {message: err} )
         }

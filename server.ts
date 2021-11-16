@@ -12,12 +12,11 @@ import CertificateJson from "./build/contracts/Certificate.json";
 const PORT = 3000;
 const HOST = '0.0.0.0'
 
-
-
-const uri = "mongodb://localhost:27017/certificate"
-// const web3Uri = "ws://127.0.0.1:7545"
-const web3Uri = "ws://172.21.208.1:7545"
-const contracAddress = "0x3745343C98EffA9b394Df00Dc11C5253cBF40DA5"
+const uri = "mongodb://Linode-admin:Linode-password@172.17.0.2:27017/"
+const web3Uri = "ws://172.17.0.3:8545"
+// const uri = "mongodb://Linode-admin:Linode-password@139.162.54.90:27017/"
+// const web3Uri = "ws://139.162.54.90:8545"
+const contracAddress = "0x38Aac2dFF5f06ef832E6e3dD72c81e2907F51251"
 export var baseAccount = "";
 export var web3: Web3;
 // export var abiDecode: any;
@@ -34,8 +33,7 @@ const initWeb3 = async () => {
     const CertificateABI: any = CertificateJson.abi;
     abiDecoder.addABI(CertificateABI);
     const contract = new web3.eth.Contract(CertificateABI, contracAddress);
-    let account = await web3.eth.getAccounts()
-    web3.eth.getTransaction
+    let account = await web3.eth.getAccounts();
     baseAccount = account[0];
     return contract
 }

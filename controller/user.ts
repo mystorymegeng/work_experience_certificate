@@ -12,7 +12,6 @@ export const userController = (db: Db, app: Express, contract) => {
     })
 
     app.post('/user', async (req, res) => {
-
         try {
             let input = req.body;
             const data: any = {
@@ -20,6 +19,8 @@ export const userController = (db: Db, app: Express, contract) => {
                 username: input.username.toString(),
                 password: input.password.toString(),
                 company: input.company.toString(),
+                name: input.name.toString(),
+                sername: input.sername.toString(),
                 createAt: new Date
             }
 
@@ -27,7 +28,7 @@ export const userController = (db: Db, app: Express, contract) => {
             if ( check ) {
                 res.status(500).json({message: "already exist account: " + data.account})
             } else {
-                await contract.methods.addUser( data.account, data.company ).send( { from: baseAccount } )
+                await contract.methods.addUser( data.account, data.company ).send( { from: baseAccount } );
                 const user = await users.insertOne(data);
                 res.json(user)
             }
@@ -55,6 +56,10 @@ export const userController = (db: Db, app: Express, contract) => {
             company: input.company.toString(),
         }
         const user = await users.findOne(data)
-        res.json(user)
+        if (user) {
+            res.json({ auth: true });
+        } else {
+            res.json({ auth: false });
+        }
     })
 }
