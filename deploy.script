@@ -1,0 +1,6 @@
+#!/bin/bash
+docker build -t web-api .
+docker stop web-api
+docker rm web-api
+docker run -d -p 3000:3000 --name web-api web-server
+
