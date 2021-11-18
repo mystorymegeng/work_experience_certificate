@@ -13,7 +13,7 @@ export const transactionController = (db: Db, app: Express, contract) => {
     app.get('/transactions', async (req, res) => {
         try {
             // const tran = await contract.methods.getAllCer().call( { gas: 1000000 } )
-            const allTransaction = await transactions.find({}).toArray()
+            const allTransaction = await (await transactions.find({}).sort({ _id: -1 }).toArray())
             res.json(allTransaction)
         } catch (err) {
             res.status(500).json( {message: err} )
@@ -55,7 +55,7 @@ export const transactionController = (db: Db, app: Express, contract) => {
                 createAt: new Date
             }
             const transaction: any = await transactions.insertOne(data);
-            const check = await transactions.findOne({ _id: new ObjectId(transaction._id.toString()) })
+            const check = await transactions.findOne({ _id: new ObjectId(transaction.insertedId.toString()) })
             res.json(check)
         } catch (err) {
             res.status(500).json( {message: err} )
@@ -76,7 +76,7 @@ export const transactionController = (db: Db, app: Express, contract) => {
                 createAt: new Date
             }
             const transaction: any = await transactions.insertOne(data);
-            const check = await transactions.findOne({ _id: new ObjectId(transaction._id.toString()) });
+            const check = await transactions.findOne({ _id: new ObjectId(transaction.insertedId.toString()) });
             res.json(check)
         } catch (err) {
             res.status(500).json( {message: err} )
