@@ -33,15 +33,15 @@ const initDB = async () => {
 
 const initWeb3 = async () => {
     web3 = new Web3(web3Uri);
-    const addAccount = web3.eth.accounts.privateKeyToAccount('0x' + "9d0315f3afc52ca26cb3e2517cf1001c0e250164833dd6d521d31b15ea1f0b5a");
-    web3.eth.accounts.wallet.add(addAccount);
-    web3.eth.defaultAccount = addAccount.address;
+    // const addAccount = web3.eth.accounts.privateKeyToAccount('0x' + "9d0315f3afc52ca26cb3e2517cf1001c0e250164833dd6d521d31b15ea1f0b5a");
+    // web3.eth.accounts.wallet.add(addAccount);
+    // web3.eth.defaultAccount = addAccount.address;
     const CertificateABI: any = CertificateJson.abi;
     abiDecoder.addABI(CertificateABI);
     const contract = new web3.eth.Contract(CertificateABI, contracAddress);
     let account = await web3.eth.getAccounts();
-    // baseAccount = account[0];
-    baseAccount = "0x657Bd77683b7744867df23fDEaC8447FF9338676";
+    baseAccount = account[0];
+    // baseAccount = "0x657Bd77683b7744867df23fDEaC8447FF9338676";
     return contract
 }
 
