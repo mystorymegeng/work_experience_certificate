@@ -16,7 +16,10 @@ const uri = "mongodb://Linode-admin:Linode-password@172.17.0.2:27017/"
 const web3Uri = "ws://172.17.0.3:8545"
 // const uri = "mongodb://Linode-admin:Linode-password@139.162.54.90:27017/"
 // const web3Uri = "ws://139.162.54.90:8545"
-const contracAddress = "0x38Aac2dFF5f06ef832E6e3dD72c81e2907F51251"
+// const web3Uri = "https://data-seed-prebsc-1-s1.binance.org:8545/" // test
+const contracAddress = "0x38Aac2dFF5f06ef832E6e3dD72c81e2907F51251";
+// const contracAddress =  "0xa999ABe396Bb301bA201410d378310c887884508"; // test-net
+
 export var baseAccount = "";
 export var web3: Web3;
 // export var abiDecode: any;
@@ -30,11 +33,15 @@ const initDB = async () => {
 
 const initWeb3 = async () => {
     web3 = new Web3(web3Uri);
+    const addAccount = web3.eth.accounts.privateKeyToAccount('0x' + "9d0315f3afc52ca26cb3e2517cf1001c0e250164833dd6d521d31b15ea1f0b5a");
+    web3.eth.accounts.wallet.add(addAccount);
+    web3.eth.defaultAccount = addAccount.address;
     const CertificateABI: any = CertificateJson.abi;
     abiDecoder.addABI(CertificateABI);
     const contract = new web3.eth.Contract(CertificateABI, contracAddress);
     let account = await web3.eth.getAccounts();
-    baseAccount = account[0];
+    // baseAccount = account[0];
+    baseAccount = "0x657Bd77683b7744867df23fDEaC8447FF9338676";
     return contract
 }
 

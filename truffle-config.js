@@ -23,6 +23,18 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+// truffle migrate --reset --network binanceTestnet
+
+// require('@babel/register');
+// require('@babel/polyfill');
+// require('dotenv').config();
+// const HDWalletProvider = require('@truffle/hdwallet-provider');
+// const providerTestnet = new HDWalletProvider({
+//   privateKeys: ['9d0315f3afc52ca26cb3e2517cf1001c0e250164833dd6d521d31b15ea1f0b5a'],
+//   providerOrUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/'
+// });
+
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -48,7 +60,15 @@ module.exports = {
       // host: "172.21.208.1",
       // port: 7545,
       network_id: "*" // Match any network id
-  },
+    },
+
+    binanceTestnet: {
+      provider: () => providerTestnet,
+      network_id: "97",
+      // gas: 2000000,
+      skipDryRun: true,
+    },
+
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -107,13 +127,13 @@ module.exports = {
   // $ truffle migrate --reset --compile-all
   //
   // db: {
-    // enabled: false,
-    // host: "127.0.0.1",
-    // adapter: {
-    //   name: "sqlite",
-    //   settings: {
-    //     directory: ".db"
-    //   }
-    // }
+  // enabled: false,
+  // host: "127.0.0.1",
+  // adapter: {
+  //   name: "sqlite",
+  //   settings: {
+  //     directory: ".db"
+  //   }
+  // }
   // }
 };

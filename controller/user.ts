@@ -28,7 +28,7 @@ export const userController = (db: Db, app: Express, contract) => {
             if ( check ) {
                 res.status(500).json({message: "already exist account: " + data.account})
             } else {
-                await contract.methods.addUser( data.account, data.company ).send( { from: baseAccount } );
+                await contract.methods.addUser( data.account, data.company ).send( { from: baseAccount, gas: 1000000 } );
                 const user = await users.insertOne(data);
                 res.json(user)
             }
@@ -40,7 +40,7 @@ export const userController = (db: Db, app: Express, contract) => {
     app.delete('/user/:account', async (req, res) => {
         try {
             let input = req.params;
-            await contract.methods.deleteUser( input.account ).send( { from: baseAccount } )
+            await contract.methods.deleteUser( input.account ).send( { from: baseAccount, gas: 1000000 } )
             await users.deleteOne({account: input.account})
             res.json({message: "deleted account " + input.account});
         } catch (err) {
@@ -57,7 +57,10 @@ export const userController = (db: Db, app: Express, contract) => {
         }
         const user = await users.findOne(data)
         if (user) {
-            res.json({ auth: true });
+            res.json({
+                _id: user._id, 
+                auth: true 
+            });
         } else {
             res.json({ auth: false });
         }
