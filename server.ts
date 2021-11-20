@@ -13,7 +13,7 @@ const PORT = 3000;
 const HOST = '0.0.0.0'
 
 const uri = "mongodb://Linode-admin:Linode-password@172.17.0.2:27017/"
-const web3Uri = "ws://172.17.0.3:7545"
+const web3Uri = "ws://172.17.0.3:8545"
 // const uri = "mongodb://Linode-admin:Linode-password@139.162.54.90:27017/"
 // const web3Uri = "ws://139.162.54.90:8545"
 // const web3Uri = "https://data-seed-prebsc-1-s1.binance.org:8545/" // test
