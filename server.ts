@@ -17,7 +17,7 @@ const web3Uri = "ws://172.17.0.3:8545"
 // const uri = "mongodb://Linode-admin:Linode-password@139.162.54.90:27017/"
 // const web3Uri = "ws://139.162.54.90:8545"
 // const web3Uri = "https://data-seed-prebsc-1-s1.binance.org:8545/" // test
-const contracAddress = "0xeAd973D814DE9488434b904a42154d65ecb87B67";
+const contracAddress = "0xdaAEC5fCA599D5CaC466333dd464f361596cF2Cf";
 // const contracAddress =  "0xa999ABe396Bb301bA201410d378310c887884508"; // test-net
 
 export var baseAccount = "";
