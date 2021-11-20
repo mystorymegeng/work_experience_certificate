@@ -13,11 +13,11 @@ const PORT = 3000;
 const HOST = '0.0.0.0'
 
 const uri = "mongodb://Linode-admin:Linode-password@172.17.0.2:27017/"
-const web3Uri = "ws://172.17.0.3:8545"
+const web3Uri = "ws://172.17.0.3:7545"
 // const uri = "mongodb://Linode-admin:Linode-password@139.162.54.90:27017/"
 // const web3Uri = "ws://139.162.54.90:8545"
 // const web3Uri = "https://data-seed-prebsc-1-s1.binance.org:8545/" // test
-const contracAddress = "0xdaAEC5fCA599D5CaC466333dd464f361596cF2Cf";
+const contracAddress = "0xC4f14308E5a1ED24A44FbAACC44c45e8217E5976";
 // const contracAddress =  "0xa999ABe396Bb301bA201410d378310c887884508"; // test-net
 
 export var baseAccount = "";
